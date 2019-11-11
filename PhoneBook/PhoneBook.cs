@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 class PhoneBook
 {
-    public static Dictionary<string, string> phoneNumbers = new Dictionary<string, string>() { {"kevin", "666"}, {"barbi", "34134135"} };
+    public static Dictionary<string, string> phoneNumbers = new Dictionary<string, string>() { { "kevin", "666" }, { "barbi", "34134135" } };
 
     static void Main()
     {
@@ -13,12 +13,10 @@ class PhoneBook
         if (answer == "y")
         {
             AddContact();
-            Main();
         }
         else if (answer == "f")
         {
             GetContact();
-            Main();
         }
         else
         {
@@ -31,13 +29,39 @@ class PhoneBook
     {
         Console.WriteLine("Enter a name");
         string name = Console.ReadLine().ToLower();
+        if (phoneNumbers.ContainsKey(name))
+        {
+            Console.WriteLine($"The name {name} is already in your phone book. Choose another name? [Y] or [N]");
+            string answer = Console.ReadLine().ToLower();
+            if (answer == "y")
+            {
+                AddContact();
+                return;
+            }
+            else
+            {
+                Main();
+                return;
+            }
+        }
         Console.WriteLine("Enter a phone number");
         string number = Console.ReadLine().ToLower();
+        phoneNumbers.Add(name, number);
+        Main();
     }
 
     static void GetContact()
     {
         Console.WriteLine("Who do you want to find?");
-        Console.WriteLine(phoneNumbers[Console.ReadLine().ToLower()]);
+        string name = Console.ReadLine().ToLower();
+        if (phoneNumbers.ContainsKey(name))
+        {
+            Console.WriteLine($"{name}'s phone number is {phoneNumbers[name]}");
+        }
+        else
+        {
+            Console.WriteLine($"{name} is not in your phone book dude");
+        }
+        Main();
     }
 }
